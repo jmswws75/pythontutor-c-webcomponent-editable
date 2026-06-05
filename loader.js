@@ -25,7 +25,7 @@
   const m = self && self.match(/@([^/]+)\/loader\.js$/);
   const ver = (m && m[1]) || "main";
 
-  const base = `https://cdn.jsdelivr.net/gh/JinningL/pythontutor-c-webcomponent@${ver}/build/`;
+  const base = `https://cdn.jsdelivr.net/gh/jmswws75/pythontutor-c-webcomponent-editable@${ver}/build/`;
 
   const css = [
     `${base}style.css`,
