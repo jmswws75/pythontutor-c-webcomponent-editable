@@ -46,7 +46,7 @@
     const DEV = getQuery("dev") === "1";
     const cacheBust = DEV ? `&t=${Date.now()}` : "";
   
-    const ROOT = `https://cdn.jsdelivr.net/gh/jmswws75/pythontutor-c-webcomponent-editable@${ver}/`;
+    const ROOT = `https://cdn.jsdelivr.net/gh/JinningL/pythontutor-c-webcomponent@${ver}/`;
     const BUILD = ROOT + "build/";
   
     Promise.all([
