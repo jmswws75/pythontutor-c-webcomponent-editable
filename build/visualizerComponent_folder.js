@@ -93,7 +93,7 @@ class CVisualizer extends HTMLElement { // Declaring a class based on a html ele
       const renderViz = (traceData) => {
         rootEl.innerHTML = ""; // wipe
 
-        const viz = new window.ExecutionVisualizer(divId, trace, {
+        const viz = new window.ExecutionVisualizer(divId, traceData, {
           embeddedMode: true,
           lang,    
           codeDivWidth: 470,
@@ -120,7 +120,7 @@ class CVisualizer extends HTMLElement { // Declaring a class based on a html ele
       try {
         const resp = await fetch(traceUrl);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        baselineTrace = await resp.json();
+        const baselineTrace = await resp.json();
         renderViz(baselineTrace);
       } catch (err) {
         if (isInteractive) {
