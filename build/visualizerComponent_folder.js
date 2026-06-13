@@ -56,6 +56,11 @@ class CVisualizer extends HTMLElement { // Declaring a class based on a html ele
         tempDiv.innerHTML = this.innerHTML;
         const scriptTag = tempDiv.querySelector('script');
         if (scriptTag) scriptTag.remove();
+
+        // Fixes a bug where "copy to clipboard" mistakenly appears in the textbox (??)
+        const copyButtons = tempDiv.querySelectorAll('.copybtn, .copybutton');
+        copyButtons.forEach(btn => btn.remove());
+
         rawCode = tempDiv.textContent.trim();
       }
   
@@ -151,7 +156,7 @@ class CVisualizer extends HTMLElement { // Declaring a class based on a html ele
           rootEl.innerHTML = `<div style="padding: 20px; font-style: italic; color: #666;">Generating fresh execution trace...</div>`;
 
           try {
-            const response = await fetch("/.netlify/functions/proxy-trace", {
+            const response = await fetch("http://localhost:8888/.netlify/functions/proxy-trace", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ code: userCode })
