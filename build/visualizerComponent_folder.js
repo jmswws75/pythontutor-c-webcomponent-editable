@@ -90,6 +90,33 @@ class CVisualizer extends HTMLElement {
                 border-radius: 0 !important;
                 padding: 0 4px !important; /* Restores CodeMirror's default text padding */
               }
+
+              /* Keywords like int, void, struct, return */
+              #editor-container-${divId} .cm-s-default .cm-keyword { color: #0000FF; font-weight: bold; }
+              
+              /* Strings and Characters */
+              #editor-container-${divId} .cm-s-default .cm-string { color: #A31515; }
+              #editor-container-${divId} .cm-s-default .cm-string-2 { color: #A31515; }
+              
+              /* Comments */
+              #editor-container-${divId} .cm-s-default .cm-comment { color: #008000; font-style: italic; }
+              
+              /* Numbers */
+              #editor-container-${divId} .cm-s-default .cm-number { color: #098658; }
+              
+              /* Standard Variables and generic text */
+              #editor-container-${divId} .cm-s-default .cm-variable,
+              #editor-container-${divId} .cm-s-default .cm-variable-2,
+              #editor-container-${divId} .cm-s-default .cm-variable-3 { color: #000000; }
+              
+              /* Built-in types and standard library identifiers */
+              #editor-container-${divId} .cm-s-default .cm-builtin { color: #2B91AF; }
+              
+              /* Struct/Function definition names */
+              #editor-container-${divId} .cm-s-default .cm-def { color: #000000; }
+              
+              /* Operators (+, -, =, etc) */
+              #editor-container-${divId} .cm-s-default .cm-operator { color: #000000; }
             </style>
 
             <textarea id="code-editor-${divId}">${originalCode}</textarea>
