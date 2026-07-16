@@ -81,6 +81,15 @@ class CVisualizer extends HTMLElement {
                 border-right: none;      /* Removes the vertical divider line */
                 background-color: #f7f7f7; /* Slight gray background for numbers */
               }
+
+              #editor-container-${divId} .CodeMirror pre {
+                border: none !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                padding: 0 4px !important; /* Restores CodeMirror's default text padding */
+              }
             </style>
 
             <textarea id="code-editor-${divId}">${originalCode}</textarea>
@@ -153,6 +162,10 @@ class CVisualizer extends HTMLElement {
         indentWithTabs: true,// Uses spaces instead of actual tab characters (better for C)
         viewportMargin: Infinity, // Allows the editor to resize dynamically
       });
+
+      for (let i = 0; i < editor.lineCount(); i++) {
+        editor.indentLine(i, "smart");
+      }
 
       // (Optional) CodeMirror sometimes renders weirdly when hidden by default. 
       // This forces it to redraw perfectly when the user clicks "Edit Code"
