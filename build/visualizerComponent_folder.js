@@ -69,7 +69,7 @@ class CVisualizer extends HTMLElement {
             <style>
               /* 1. Target the main CodeMirror wrapper */
               #editor-container-${divId} .CodeMirror {
-                font-size: 13px;         /* Smaller text */
+                font-size: 14px;         /* Smaller text */
                 height: 400px;           /* Taller vertical window */
                 border: 1px solid #ccc;  /* Clean outer border */
                 border-radius: 4px;
@@ -157,7 +157,7 @@ class CVisualizer extends HTMLElement {
 
       const editor = window.CodeMirror.fromTextArea(textArea, {
         mode: "text/x-csrc",  // Tells it to use C syntax
-        lineNumbers: false,    // Adds line numbers on the left
+        lineNumbers: true,    // Adds line numbers on the left
         indentUnit: 2,        // Sets Tab size to 4 spaces
         indentWithTabs: true,// Uses spaces instead of actual tab characters (better for C)
         viewportMargin: Infinity, // Allows the editor to resize dynamically
