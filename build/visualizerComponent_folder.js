@@ -90,43 +90,6 @@ class CVisualizer extends HTMLElement {
                 border-radius: 0 !important;
                 padding: 0 4px !important; /* Restores CodeMirror's default text padding */
               }
-
-              /* Keywords, Types, and Constants (Blue & Bold) */
-              #editor-container-${divId} .cm-s-default .cm-keyword,
-              #editor-container-${divId} .cm-s-default .cm-type,
-              #editor-container-${divId} .cm-s-default .cm-builtin,
-              #editor-container-${divId} .cm-s-default .cm-atom { 
-                color: #0000FF !important; 
-                font-weight: bold !important; 
-              }
-              
-              /* Strings and Characters (Dark Red) */
-              #editor-container-${divId} .cm-s-default .cm-string,
-              #editor-container-${divId} .cm-s-default .cm-string-2 { 
-                color: #A31515 !important; 
-              }
-              
-              /* Comments (Green & Italic) */
-              #editor-container-${divId} .cm-s-default .cm-comment { 
-                color: #008000 !important; 
-                font-style: italic !important; 
-              }
-              
-              /* Numbers (Green) */
-              #editor-container-${divId} .cm-s-default .cm-number { 
-                color: #098658 !important; 
-              }
-              
-              /* Variables, Functions, Operators, and generic text (Black) */
-              #editor-container-${divId} .cm-s-default .cm-variable,
-              #editor-container-${divId} .cm-s-default .cm-variable-2,
-              #editor-container-${divId} .cm-s-default .cm-variable-3,
-              #editor-container-${divId} .cm-s-default .cm-def,
-              #editor-container-${divId} .cm-s-default .cm-property,
-              #editor-container-${divId} .cm-s-default .cm-operator { 
-                color: #000000 !important; 
-                font-weight: normal !important;
-              }
             </style>
 
             <textarea id="code-editor-${divId}">${originalCode}</textarea>
@@ -194,6 +157,7 @@ class CVisualizer extends HTMLElement {
 
       const editor = window.CodeMirror.fromTextArea(textArea, {
         mode: "text/x-csrc",  // Tells it to use C syntax
+        theme: "base16-light",
         lineNumbers: true,    // Adds line numbers on the left
         indentUnit: 2,        // Sets Tab size to 4 spaces
         indentWithTabs: true,// Uses spaces instead of actual tab characters (better for C)
