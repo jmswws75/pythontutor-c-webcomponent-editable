@@ -50,7 +50,7 @@ class CVisualizer extends HTMLElement { // Declaring a class based on a html ele
       }
 
       // 4) extract c code from markdown
-      let rawCode = "";
+      let originalCode = "";
       if (isInteractive) {
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = this.innerHTML;
@@ -61,7 +61,7 @@ class CVisualizer extends HTMLElement { // Declaring a class based on a html ele
         const copyButtons = tempDiv.querySelectorAll('.copybtn, .copybutton');
         copyButtons.forEach(btn => btn.remove());
 
-        rawCode = tempDiv.textContent.trim();
+        originalCode = tempDiv.textContent.trim();
 
         const editor = this.querySelector('#code-editor');
         editor.value = originalCode;
