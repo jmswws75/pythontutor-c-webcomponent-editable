@@ -91,32 +91,42 @@ class CVisualizer extends HTMLElement {
                 padding: 0 4px !important; /* Restores CodeMirror's default text padding */
               }
 
-              /* Keywords like int, void, struct, return */
-              #editor-container-${divId} .cm-s-default .cm-keyword { color: #0000FF; font-weight: bold; }
+              /* Keywords, Types, and Constants (Blue & Bold) */
+              #editor-container-${divId} .cm-s-default .cm-keyword,
+              #editor-container-${divId} .cm-s-default .cm-type,
+              #editor-container-${divId} .cm-s-default .cm-builtin,
+              #editor-container-${divId} .cm-s-default .cm-atom { 
+                color: #0000FF !important; 
+                font-weight: bold !important; 
+              }
               
-              /* Strings and Characters */
-              #editor-container-${divId} .cm-s-default .cm-string { color: #A31515; }
-              #editor-container-${divId} .cm-s-default .cm-string-2 { color: #A31515; }
+              /* Strings and Characters (Dark Red) */
+              #editor-container-${divId} .cm-s-default .cm-string,
+              #editor-container-${divId} .cm-s-default .cm-string-2 { 
+                color: #A31515 !important; 
+              }
               
-              /* Comments */
-              #editor-container-${divId} .cm-s-default .cm-comment { color: #008000; font-style: italic; }
+              /* Comments (Green & Italic) */
+              #editor-container-${divId} .cm-s-default .cm-comment { 
+                color: #008000 !important; 
+                font-style: italic !important; 
+              }
               
-              /* Numbers */
-              #editor-container-${divId} .cm-s-default .cm-number { color: #098658; }
+              /* Numbers (Green) */
+              #editor-container-${divId} .cm-s-default .cm-number { 
+                color: #098658 !important; 
+              }
               
-              /* Standard Variables and generic text */
+              /* Variables, Functions, Operators, and generic text (Black) */
               #editor-container-${divId} .cm-s-default .cm-variable,
               #editor-container-${divId} .cm-s-default .cm-variable-2,
-              #editor-container-${divId} .cm-s-default .cm-variable-3 { color: #000000; }
-              
-              /* Built-in types and standard library identifiers */
-              #editor-container-${divId} .cm-s-default .cm-builtin { color: #2B91AF; }
-              
-              /* Struct/Function definition names */
-              #editor-container-${divId} .cm-s-default .cm-def { color: #000000; }
-              
-              /* Operators (+, -, =, etc) */
-              #editor-container-${divId} .cm-s-default .cm-operator { color: #000000; }
+              #editor-container-${divId} .cm-s-default .cm-variable-3,
+              #editor-container-${divId} .cm-s-default .cm-def,
+              #editor-container-${divId} .cm-s-default .cm-property,
+              #editor-container-${divId} .cm-s-default .cm-operator { 
+                color: #000000 !important; 
+                font-weight: normal !important;
+              }
             </style>
 
             <textarea id="code-editor-${divId}">${originalCode}</textarea>
