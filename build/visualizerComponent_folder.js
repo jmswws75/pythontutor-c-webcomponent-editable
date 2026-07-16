@@ -62,6 +62,9 @@ class CVisualizer extends HTMLElement { // Declaring a class based on a html ele
         copyButtons.forEach(btn => btn.remove());
 
         rawCode = tempDiv.textContent.trim();
+
+        const editor = this.querySelector('#code-editor');
+        editor.value = originalCode;
       }
   
       // 5) Create a unique container and show a temporary placeholder
@@ -139,51 +142,73 @@ class CVisualizer extends HTMLElement { // Declaring a class based on a html ele
 
       // 
       if (isInteractive) {
-        const btn = document.getElementById(`btn-${divId}`);
-        const editor = document.getElementById(`edit-${divId}`);
-        const status = document.getElementById(`status-${divId}`);
+        const actionBtn = this.querySelector('#action-btn');
+        const visContainer = this.querySelector('#visualizer-container');
+        const editContainer = this.querySelector('#editor-container');
 
-        btn.addEventListener("click", async () => {
-          const userCode = editor.value.trim();
-          if (!userCode) {
-            status.textContent = "Code workspace cannot be empty.";
-            return;
-          }
+        actionBtn.addEventListener('click', async () => {
+          
+          // ---------------------------------------------------------
+          // STATE 1: Switching to Editor
+          // ---------------------------------------------------------
+          if (actionBtn.innerText === "Edit Code") {
+            visContainer.style.display = 'none';
+            editContainer.style.display = 'block';
+            actionBtn.innerText = "Compile & Run";
+          } 
+          
+          // ---------------------------------------------------------
+          // STATE 2: Compiling & Switching to Visualizer
+          // ---------------------------------------------------------
+          else {
+            const studentCode = editor.value.trim();
 
-          // Lock interactive controls during active transmission network phase
-          btn.disabled = true;
-          status.textContent = "Compiling and tracing via backend proxy...";
-          rootEl.innerHTML = `<div style="padding: 20px; font-style: italic; color: #666;">Generating fresh execution trace...</div>`;
-
-          try {
-            const response = await fetch("http://localhost:8888/.netlify/functions/proxy-trace", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ code: userCode })
-            });
-
-            if (!response.ok) throw new Error(`Server status ${response.status}`);
-            
-            const freshTraceData = await response.json();
-            
-            // Check if backend compiler compilation failed
-            if (freshTraceData.code_error) {
-              status.textContent = "Compilation Error";
-              rootEl.innerHTML = `
-                <div style="border: 1px solid red; background: #fff5f5; padding: 15px; font-family: monospace; white-space: pre-wrap; color: red;">${freshTraceData.code_error}</div>
-              `;
-            } else {
-              status.textContent = "Success!";
-              renderViz(freshTraceData);
+            // The Dirty Check: Did they actually change the code?
+            if (studentCode === originalCode) {
+              // No changes made! Just flip the UI back.
+              // The original visualizer (and its annotations) is perfectly preserved.
+              editContainer.style.display = 'none';
+              visContainer.style.display = 'block';
+              actionBtn.innerText = "Edit Code";
+              return; // Stop execution here!
             }
 
-          } catch (networkError) {
-            console.error("Tracing failed:", networkError);
-            status.textContent = "Connection failed. Check server status";
-            rootEl.innerHTML = `<p style="color:red;">Failed to retrieve dynamic trace data.</p>`;
-          } finally {
-            // Unlock control switches
-            btn.disabled = false;
+            // Changes detected! We must recompile.
+            actionBtn.innerText = "Compiling...";
+            actionBtn.disabled = true; 
+
+            try {
+              // 1. Ping the Netlify Proxy
+              const response = await fetch("/.netlify/functions/proxy-trace", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code: studentCode })
+              });
+
+              if (!response.ok) throw new Error("Compilation failed");
+              const traceData = await response.json();
+
+              // 2. Render the new trace (Note: Jinning's visualizer should 
+              // overwrite the old div contents here, wiping out the old annotations)
+              // renderNewTrace(traceData); 
+
+              // 3. Update the originalCode so the new baseline is set
+              // (Optional: Remove this line if you want "Edit Code" to always compare 
+              // against the textbook's default code rather than their last compile)
+              originalCode = studentCode;
+
+              // 4. Flip the UI
+              editContainer.style.display = 'none';
+              visContainer.style.display = 'block';
+              actionBtn.innerText = "Edit Code";
+
+            } catch (error) {
+              console.error("Proxy error:", error);
+              alert("Compilation failed. See console.");
+              actionBtn.innerText = "Compile & Run"; 
+            } finally {
+              actionBtn.disabled = false;
+            }
           }
         });
       }
