@@ -65,7 +65,25 @@ class CVisualizer extends HTMLElement {
           </div>
 
           <div id="editor-container-${divId}" style="display: none;">
-            <textarea id="code-editor-${divId}" style="width: 100%; height: 250px; font-family: monospace; padding: 10px; box-sizing: border-box; resize: vertical;">${originalCode}</textarea>
+            
+            <style>
+              /* 1. Target the main CodeMirror wrapper */
+              #editor-container-${divId} .CodeMirror {
+                font-size: 13px;         /* Smaller text */
+                height: 400px;           /* Taller vertical window */
+                border: 1px solid #ccc;  /* Clean outer border */
+                border-radius: 4px;
+                font-family: monospace;
+              }
+              
+              /* 2. Target the line-number gutter column */
+              #editor-container-${divId} .CodeMirror-gutters {
+                border-right: none;      /* Removes the vertical divider line */
+                background-color: #f7f7f7; /* Slight gray background for numbers */
+              }
+            </style>
+
+            <textarea id="code-editor-${divId}">${originalCode}</textarea>
           </div>
         </div>
       `;
@@ -130,10 +148,10 @@ class CVisualizer extends HTMLElement {
 
       const editor = window.CodeMirror.fromTextArea(textArea, {
         mode: "text/x-csrc",  // Tells it to use C syntax
-        lineNumbers: true,    // Adds line numbers on the left
-        indentUnit: 4,        // Sets Tab size to 4 spaces
-        indentWithTabs: false,// Uses spaces instead of actual tab characters (better for C)
-        viewportMargin: Infinity // Allows the editor to resize dynamically
+        lineNumbers: false,    // Adds line numbers on the left
+        indentUnit: 2,        // Sets Tab size to 4 spaces
+        indentWithTabs: true,// Uses spaces instead of actual tab characters (better for C)
+        viewportMargin: Infinity, // Allows the editor to resize dynamically
       });
 
       // (Optional) CodeMirror sometimes renders weirdly when hidden by default. 

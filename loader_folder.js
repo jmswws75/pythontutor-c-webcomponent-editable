@@ -46,7 +46,11 @@
     const DEV = getQuery("dev") === "1";
     const cacheBust = DEV ? `&t=${Date.now()}` : "";
   
-    const ROOT = `https://cdn.jsdelivr.net/gh/jmswws75/pythontutor-c-webcomponent-editable@${ver}/`;
+    // Grab the full URL of exactly where this loader script is located right now
+    const scriptUrl = selfSrc || location.href;
+    
+    // Strip off the filename to get the parent directory path
+    const ROOT = scriptUrl.substring(0, scriptUrl.lastIndexOf('/') + 1);
     const BUILD = ROOT + "build/";
   
     Promise.all([
