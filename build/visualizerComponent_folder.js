@@ -126,7 +126,21 @@ class CVisualizer extends HTMLElement {
       const actionBtn = this.querySelector(`#action-btn-${divId}`);
       const visContainer = this.querySelector(`#visualizer-container-${divId}`);
       const editContainer = this.querySelector(`#editor-container-${divId}`);
-      const editor = this.querySelector(`#code-editor-${divId}`);
+      const textArea = this.querySelector(`#code-editor-${divId}`);
+
+      const editor = window.CodeMirror.fromTextArea(textArea, {
+        mode: "text/x-csrc",  // Tells it to use C syntax
+        lineNumbers: true,    // Adds line numbers on the left
+        indentUnit: 4,        // Sets Tab size to 4 spaces
+        indentWithTabs: false,// Uses spaces instead of actual tab characters (better for C)
+        viewportMargin: Infinity // Allows the editor to resize dynamically
+      });
+
+      // (Optional) CodeMirror sometimes renders weirdly when hidden by default. 
+      // This forces it to redraw perfectly when the user clicks "Edit Code"
+      const refreshEditor = () => {
+        setTimeout(() => editor.refresh(), 10);
+      };
 
       actionBtn.addEventListener('click', async () => {
         
@@ -135,11 +149,13 @@ class CVisualizer extends HTMLElement {
           visContainer.style.display = 'none';
           editContainer.style.display = 'block';
           actionBtn.innerText = "Compile & Run";
+
+          refreshEditor();
         } 
         
         // PATH B: Compiling & Switching to Visualizer
         else {
-          const studentCode = editor.value.trim();
+          const studentCode = editor.getValue().trim();
 
           // Dirty Check
           if (studentCode === originalCode) {
