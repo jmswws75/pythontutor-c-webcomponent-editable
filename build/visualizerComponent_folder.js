@@ -56,7 +56,8 @@ class CVisualizer extends HTMLElement {
     if (isInteractive) {
       this.innerHTML = `
         <div class="c-visualizer-wrapper" style="border: 1px solid #ccc; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
-          <div class="toolbar" style="margin-bottom: 15px;">
+          <div class="toolbar" style="margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
+            <span id="mode-title-${divId}" style="font-weight: bold; font-size: 1.1em; color: #333;">Currently Viewing</span>
             <button id="action-btn-${divId}" style="padding: 6px 12px; cursor: pointer;">Edit Code</button>
           </div>
 
