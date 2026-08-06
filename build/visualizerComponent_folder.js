@@ -154,6 +154,7 @@ class CVisualizer extends HTMLElement {
       const visContainer = this.querySelector(`#visualizer-container-${divId}`);
       const editContainer = this.querySelector(`#editor-container-${divId}`);
       const textArea = this.querySelector(`#code-editor-${divId}`);
+      const modeTitle = document.getElementById(`mode-title-${divId}`);
 
       const editor = window.CodeMirror.fromTextArea(textArea, {
         mode: "text/x-csrc",  // Tells it to use C syntax
@@ -181,6 +182,7 @@ class CVisualizer extends HTMLElement {
           visContainer.style.display = 'none';
           editContainer.style.display = 'block';
           actionBtn.innerText = "Compile & Run";
+          modeTitle.innerText = "Currently Editing"
 
           refreshEditor();
         } 
@@ -194,6 +196,7 @@ class CVisualizer extends HTMLElement {
             editContainer.style.display = 'none';
             visContainer.style.display = 'block';
             actionBtn.innerText = "Edit Code";
+            modeTitle.innerText = "Currently Viewing";
             return; 
           }
 
@@ -218,11 +221,13 @@ class CVisualizer extends HTMLElement {
             editContainer.style.display = 'none';
             visContainer.style.display = 'block';
             actionBtn.innerText = "Edit Code";
+            modeTitle.innerText = "Currently Viewing";
 
           } catch (error) {
             console.error("Proxy error:", error);
             alert("Compilation failed. See console.");
             actionBtn.innerText = "Compile & Run"; 
+            modeTitle.innerText = "Currently Editing"
           } finally {
             actionBtn.disabled = false;
           }
